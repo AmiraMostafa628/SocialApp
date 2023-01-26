@@ -54,3 +54,31 @@ var uId;
 
 
 
+/*
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message)async
+{
+  showToast(text: 'on Background message', state: ToastState.SUCCESS);
+  print(message.data.toString());
+
+}
+*/
+
+/*
+var token = await FirebaseMessaging.instance.getToken();
+
+//print(token);
+// foreground
+FirebaseMessaging.onMessage.listen((event) {
+showToast(text: 'on message', state: ToastState.SUCCESS);
+print(event.data.toString());
+});
+
+// when click notification to open app
+FirebaseMessaging.onMessageOpenedApp.listen((event) {
+
+showToast(text: 'on message opened app', state: ToastState.SUCCESS);
+print(event.data.toString());
+});
+//background
+FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+*/

@@ -5,6 +5,7 @@ import 'package:social_app/modules/socialApp/friendProfile/friendProfileScreen.d
 
 import '../../../models/SocialUserModel.dart';
 import '../../../shared/components/components.dart';
+import '../../../shared/components/constant.dart';
 import '../../../shared/cubit/cubit.dart';
 import '../../../shared/cubit/states.dart';
 
@@ -19,6 +20,7 @@ class FriendsScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+
             title:Text(
               'Friends',
               style: TextStyle(
@@ -86,48 +88,53 @@ class FriendsScreen extends StatelessWidget {
                 text: 'Are you Sure to unFriend this Person',
                 context: context,
                 actions: [
-                  Container(
-                    height: 35.0,
-                    //padding: EdgeInsetsDirectional.zero,
-                    decoration: BoxDecoration(
-                        color:Colors.blue,
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: MaterialButton(
-                        onPressed: (){
-                          SocialCubit.get(context).unFriend(friendId: model.uId!);
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'unfriend',
-                          style: TextStyle(color: Colors.white,fontSize: 15.0),
-                        )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 35.0,
+                        //padding: EdgeInsetsDirectional.zero,
+                        decoration: BoxDecoration(
+                            color:Colors.blue,
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: MaterialButton(
+                            onPressed: (){
+                              SocialCubit.get(context).unFriend(friendId: model.uId!);
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'unfriend',
+                              style: TextStyle(color: Colors.white,fontSize: 15.0),
+                            )
 
 
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  Container(
-                    height: 35.0,
-                    //padding: EdgeInsetsDirectional.zero,
-                    decoration: BoxDecoration(
-                        color:Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: MaterialButton(
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(color: Colors.black,fontSize: 15.0),
-                        )
+                        ),
+                      ),
+                      SizedBox(width: 30,),
+                      Container(
+                        height: 35.0,
+                        //padding: EdgeInsetsDirectional.zero,
+                        decoration: BoxDecoration(
+                            color:Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: MaterialButton(
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.black,fontSize: 15.0),
+                            )
 
 
-                    ),
-                  ),
+                        ),
+                      ),
+                    ],
+                  )
                 ]
             );
           }, icon: Icon(Icons.delete))

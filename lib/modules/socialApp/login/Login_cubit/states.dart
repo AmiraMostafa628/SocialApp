@@ -11,12 +11,19 @@ class SocialLoginSuccessState extends SocialLoginStates{
 }
 
 class SocialLoginErrorState extends SocialLoginStates{
-  final String error;
-  SocialLoginErrorState(this.error);
 }
 
 class SocialChangePasswordVisibilityState extends SocialLoginStates{}
 
+class SocialChangePasswordSuccessState extends SocialLoginStates{}
+
+class SocialChangePasswordErrorState extends SocialLoginStates{
+  final String error;
+
+  SocialChangePasswordErrorState(this.error);
+}
+
+/*
 class SocialLoginGoogleUserLoadingState extends SocialLoginStates{}
 
 class SocialLoginGoogleUserSuccessState extends SocialLoginStates{
@@ -29,4 +36,5 @@ class SocialCreateGoogleUserSuccessState extends SocialLoginStates{}
 
 class SocialCreateGoogleUserErrorState extends SocialLoginStates{}
 
+*/
 

@@ -1,4 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/HomeLayout.dart';
@@ -19,7 +21,6 @@ class SocialRegisterScreen extends StatelessWidget {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  var phoneController = TextEditingController();
 
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,137 +32,140 @@ class SocialRegisterScreen extends StatelessWidget {
               CacheHelper.saveData(key: 'uId', value: state.uId)
                   .then((value) {
                 uId = state.uId;
-                SocialCubit.get(context).currentIndex=0;
-                SocialCubit.get(context).getUserData();
-                SocialCubit.get(context).getAllUsers();
-                navigateAndFinish(context, HomeLayout());
+                navigateAndFinish(context, SocialLoginScreen());
               });
             }
         },
         builder: (context,state){
           return Scaffold(
             appBar: AppBar(),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('REGISTER',
-                          style: Theme.of(context).textTheme.headline4?.copyWith(
-                              color: SocialCubit.get(context).isDark?Colors.white:Colors.black
-                          )
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      defaultFormField(
-                          controller: nameController,
-                          type: TextInputType.name,
-                          validate: ( value)
-                          {
-                            if (value!.isEmpty) {
-                              return 'name must not be Empty';
-                            }
-                          },
-                          label: 'UserName',
-                          prefix: Icons.person),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      defaultFormField(
-                          controller: emailController,
-                          type: TextInputType.emailAddress,
-                          validate: ( value)
-                          {
-                            if (value!.isEmpty) {
-                              return 'Email must not be Empty';
-                            }
-                          },
-                          label: 'Email Address',
-                          prefix: Icons.email_outlined),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      defaultFormField(
-                        controller: passwordController,
-                        type: TextInputType.visiblePassword,
-                        isPassword: SocialRegisterCubit.get(context).ispassword,
-                        suffixPressed: (){
-                          SocialRegisterCubit.get(context).changePasswordVisibility();
-                        },
-                        validate: ( value)
-                        {
-                          if (value!.isEmpty) {
-                            return 'password is too short';
-                          }
-                        },
-                        label: 'Password',
-                        prefix: Icons.lock,
-                        suffix: SocialRegisterCubit.get(context).suffix,
-
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      defaultFormField(
-                          controller: phoneController,
-                          type: TextInputType.phone,
-                          validate: ( value)
-                          {
-                            if (value!.isEmpty) {
-                              return 'phone must not be Empty';
-                            }
-                          },
-                          label: 'Phone',
-                          prefix: Icons.phone),
-
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ConditionalBuilder(
-                        condition: state is !SocialRegisterLoadingState,
-                        builder: (context)=>defaultButton(
-                            function: () {
-                              if (formKey.currentState!.validate()) {
-                                SocialRegisterCubit.get(context).userRegister(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  phone: phoneController.text,
-                                );
+            body: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('REGISTER',
+                            style: Theme.of(context).textTheme.headline4?.copyWith(
+                                color: SocialCubit.get(context).isDark?Colors.white:Colors.black
+                            )
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        defaultFormField(
+                            controller: nameController,
+                            type: TextInputType.name,
+                            validate: ( value)
+                            {
+                              if (value!.isEmpty) {
+                                return 'Username can\'t be Empty';
+                              }
+                              if (value.length> 50) {
+                                return 'Username can\'t be larger than 50 letter';
+                              }
+                              if (value.length< 2) {
+                                return 'Username can\'t be less than 2 letter';
                               }
                             },
-                            background: defaultColor,
-                            text: 'Sign up'
-                        ) ,
-                        fallback: (context)=>Center(child: CircularProgressIndicator()),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already  have an account',
-                            style: TextStyle(
-                            ),
-                          ),
-                          defaultTextButten(
-                              function:(){
-                                NavigateTo(
-                                    context,
-                                    SocialLoginScreen());
-                              },
-                              color: defaultColor,
-                              text: 'Login')
-                        ],
-                      )
-                    ],
+                            label: 'UserName',
+                            prefix: Icons.person),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        defaultFormField(
+                            controller: emailController,
+                            type: TextInputType.emailAddress,
+                            validate: ( value)
+                            {
+                              if (value!.isEmpty) {
+                                return 'Email must not be Empty';
+                              }
+                            },
+                            label: 'Email Address',
+                            prefix: Icons.email_outlined),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        defaultFormField(
+                          controller: passwordController,
+                          type: TextInputType.visiblePassword,
+                          isPassword: SocialRegisterCubit.get(context).ispassword,
+                          suffixPressed: (){
+                            SocialRegisterCubit.get(context).changePasswordVisibility();
+                          },
+                          validate: ( value)
+                          {
+                            if (value!.isEmpty) {
+                              return 'Password can\'t be Empty';
+                            }
+                            if (value.length> 50) {
+                              return 'Password can\'t be larger than 50 digit';
+                            }
+                            if (value.length<6) {
+                              return 'Password can be at least 6 digit';
+                            }
+                          },
+                          label: 'Password',
+                          prefix: Icons.lock,
+                          suffix: SocialRegisterCubit.get(context).suffix,
 
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        ConditionalBuilder(
+                          condition: state is !SocialRegisterLoadingState,
+                          builder: (context)=>defaultButton(
+                              function: () async{
+                                if (formKey.currentState!.validate()) {
+                                  UserCredential response = await SocialRegisterCubit.get(context).userRegister(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    context: context,);
+                                  if(response != null)
+                                    SocialRegisterCubit.get(context).usercreate
+                                      (name: nameController.text,
+                                        email: emailController.text,
+                                        uId: response.user!.uid,
+                                       );
+
+                                }
+                                  showToast(text: 'check your email for verifing it',
+                                      state: ToastState.SUCCESS);
+                              },
+                              background: defaultColor,
+                              text: 'Sign up'
+                          ) ,
+                          fallback: (context)=>Center(child: CircularProgressIndicator()),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Already  have an account',
+                              style: TextStyle(
+                              ),
+                            ),
+                            defaultTextButten(
+                                function:(){
+                                  NavigateTo(
+                                      context,
+                                      SocialLoginScreen());
+                                },
+                                color: defaultColor,
+                                text: 'Login')
+                          ],
+                        )
+                      ],
+
+                    ),
                   ),
                 ),
               ),

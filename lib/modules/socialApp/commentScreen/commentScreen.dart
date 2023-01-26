@@ -174,7 +174,9 @@ class CommentScreen extends StatelessWidget {
                 padding: EdgeInsetsDirectional.all(10.0),
                 decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.grey[200],
+                  color: SocialCubit.get(context).isDark
+                      ? HexColor('272a2c').withOpacity(.5)
+                      : Colors.grey[300],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,8 +192,6 @@ class CommentScreen extends StatelessWidget {
 
 
                     ),
-
-
 
                   ],
                 ),

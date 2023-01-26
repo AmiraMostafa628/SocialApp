@@ -33,22 +33,16 @@ class DioHelper {
   }
 
   static Future<Response> postData({
-    required String url,
-    Map<String,dynamic>? query,
     required Map<String,dynamic>? data,
-    String lang= 'en',
-    String? token,
   })async
   {
     dio.options.headers={
       'Content-Type':'application/json',
-      'lang':lang,
-      'Authorization':token??'',
+      'Authorization':'Key = AAAAk8LRqi4:APA91bFQpZDNUBEagvXsY1b4ECtkS9m6wRAIRbne2dq34X3KpoqKXQCRwGEGN4A40PqwtxmPbsZNOC6ALoR0nwa5Swic6SExoYR5Qgjm26nC9VIbgeQdmEnPQYTp6PMNYymwxnijyHPu',
     };
     return dio.post(
-      url,
-      queryParameters: query,
-      data: data,
+      'https://fcm.googleapis.com/fcm/send',
+       data: data,
     );
   }
 

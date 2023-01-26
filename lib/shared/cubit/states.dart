@@ -23,6 +23,7 @@ class SocialGetAllUsersErrorStates extends SocialStates{
   SocialGetAllUsersErrorStates(this.error);
 
 }
+class SocialremoveUserSuccessStates extends SocialStates{}
 
 class ChangeBottomNavBarStates extends SocialStates{}
 
@@ -45,6 +46,8 @@ class SocialUploadCoverImageErrorStates extends SocialStates{}
 class SocialUploadUserdataLoadingStates extends SocialStates{}
 
 class SocialUpdateUserdataLoadingStates extends SocialStates{}
+
+class SocialUpdatePostdataSuccessStates extends SocialStates{}
 
 class SocialUpdateUserdataErrorStates extends SocialStates{}
 
@@ -168,6 +171,8 @@ class SocialDeleteFriendSuccessState extends SocialStates{}
 class SocialDeleteFriendErrorState extends SocialStates{}
 
 class SocialChangeCurrentModeState extends SocialStates{}
+
+class SocialSendNotificationSuccessState extends SocialStates{}
 
 
 

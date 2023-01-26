@@ -20,7 +20,6 @@ class ProfileScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit,SocialStates>(
       listener: (context,state){},
       builder: (context,state){
-        SocialCubit.get(context).getUserData();
         var userModel = SocialCubit.get(context).userModel!;
         return  ConditionalBuilder(
           condition:  userModel !=null,

@@ -27,6 +27,7 @@ class FeedsScreen extends StatelessWidget {
           }
       },
       builder: (context, state) {
+        SocialCubit.get(context).getAllUsers();
         return Column(
           children: [
             if (SocialCubit.get(context).userModel!=null)
@@ -105,7 +106,7 @@ class FeedsScreen extends StatelessWidget {
             ),
             Expanded(
               child: ConditionalBuilder(
-                condition: SocialCubit.get(context).posts.length>0&&SocialCubit.get(context).userModel!=null,
+                condition: SocialCubit.get(context).posts.length>0 &&SocialCubit.get(context).userModel!=null,
                 builder: (context)=>SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: ListView.separated(

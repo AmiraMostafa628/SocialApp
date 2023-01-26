@@ -42,9 +42,11 @@ dependencies:
   shared_preferences: ^2.0.5
   fluttertoast: ^8.1.1
   sizer: ^2.0.15
+  intl: ^0.17.0
   image_picker: ^0.8.6
   getwidget: ^3.0.1
   alert: ^2.0.1
+  awesome_dialog: ^3.0.2
 
   #firebase
   firebase_core: ^2.4.0

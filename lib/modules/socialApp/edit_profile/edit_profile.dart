@@ -13,7 +13,6 @@ class EditProfileScreen extends StatelessWidget {
 
   var nameController = TextEditingController();
   var bioController = TextEditingController();
-  var phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,6 @@ class EditProfileScreen extends StatelessWidget {
         
         nameController.text= userModel.name!;
         bioController.text=userModel.bio!;
-        phoneController.text=userModel.phone!;
 
         return Scaffold(
             appBar: defaultAppbar(
@@ -37,7 +35,6 @@ class EditProfileScreen extends StatelessWidget {
                       function: (){
                         SocialCubit.get(context).updateUserData(
                             name: nameController.text,
-                            phone: phoneController.text,
                             bio: bioController.text,
                             context: context
                         );
@@ -153,7 +150,6 @@ class EditProfileScreen extends StatelessWidget {
                                       function: (){
                                         SocialCubit.get(context).uploadProfileImage(
                                             name: nameController.text,
-                                            phone: phoneController.text,
                                             bio: bioController.text,
                                           context: context,
                                         );
@@ -180,7 +176,6 @@ class EditProfileScreen extends StatelessWidget {
                                     function: (){
                                       SocialCubit.get(context).uploadCoverImage(
                                           name: nameController.text,
-                                          phone: phoneController.text,
                                           bio: bioController.text,
                                         context: context
                                       );
@@ -231,16 +226,6 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(
                       height: 10.0,
                     ),
-                    defaultFormField(
-                        controller: phoneController,
-                        type: TextInputType.phone,
-                        label: 'Phone',
-                        validate: (value)
-                        {
-                          if(value.isEmpty)
-                            return 'phone mustn\'t be empty';
-                        },
-                        prefix: IconBroken.Call),
                   ],
                 ),
               ),

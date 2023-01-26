@@ -13,7 +13,6 @@ class PostModel{
     this.text,
     this.dateTime,
     this.postImage,
-    t
   });
   PostModel.fromJson(Map<String,dynamic>json)
   {
@@ -23,6 +22,7 @@ class PostModel{
     text=json['text'];
     dateTime=json['dateTime'];
     postImage =json['postImage'];
+
   }
 
   Map<String,dynamic>? toMap()

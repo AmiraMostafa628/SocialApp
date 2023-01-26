@@ -1,9 +1,13 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:social_app/models/SocialUserModel.dart';
 import 'package:social_app/modules/socialApp/Register/Register_cubit/states.dart';
+import 'package:social_app/modules/socialApp/login/LoginScreen.dart';
+import 'package:social_app/shared/components/components.dart';
 
 class SocialRegisterCubit extends Cubit <SocialRegisterStates>{
 
@@ -12,34 +16,62 @@ class SocialRegisterCubit extends Cubit <SocialRegisterStates>{
   static SocialRegisterCubit get(context) => BlocProvider.of(context);
 
   
-  void userRegister({
-    required String name,
+  Future userRegister ({
     required String email,
     required String password,
-    required String phone,
+    required BuildContext context
 
-})
+})async
   {
     emit(SocialRegisterLoadingState());
-     FirebaseAuth.instance.createUserWithEmailAndPassword(
-         email: email,
-         password: password)
-         .then((value) {
-           usercreate(
-               name: name,
-               email: email,
-               phone: phone,
-               uId: value.user!.uid);
+    try {
+      UserCredential usercredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if(usercredential.user!.emailVerified==false) {
+        User? user = FirebaseAuth.instance.currentUser;
+        await user!.sendEmailVerification();
+        showToast(text: 'check your email to verify it', state: ToastState.SUCCESS);
+        NavigateTo(context, SocialLoginScreen());
+      }
+      emit(SocialRegisterSuccessState());
+      return usercredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        AwesomeDialog(
+          context: context,
+          title: 'Error',
+          desc:'The password provided is too weak.',
+          btnOkOnPress: () {},
+          onDismissCallback: (type) {
+            Navigator.pop;
+          },
 
-     }).catchError((error){
-       print(error.toString());
-           emit(SocialRegisterErrorState(error));
-     });
+        )..show();
+
+        emit(SocialRegisterErrorState());
+      } else if (e.code == 'email-already-in-use') {
+        AwesomeDialog(
+          context: context,
+          title: 'Error',
+          desc:'The account already exists for that email.',
+          btnOkOnPress: () {},
+          onDismissCallback: (type) {
+            Navigator.pop;
+          },
+        )..show();
+        emit(SocialRegisterErrorState());
+      }
+    } catch (e) {
+      print(e);
+      emit(SocialRegisterErrorState());
+    }
+
     }
   void usercreate({
     required String name,
     required String email,
-    required String phone,
     required String uId,
 
   })
@@ -47,18 +79,16 @@ class SocialRegisterCubit extends Cubit <SocialRegisterStates>{
     SocialUserModel model = SocialUserModel(
       name: name,
       email: email,
-      phone: phone,
       uId: uId,
-      image: 'https://th.bing.com/th/id/OIP.sI785-ID81k_cRy1e__uawHaJs?pid=ImgDet&w=207&h=270&c=7',
-      cover: 'https://img.freepik.com/free-photo/group-people-working-out-business-plan-office_1303-15779.jpg',
+      image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+      cover: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
       bio: 'write your bio...',
-      isEmailVerified: false,
     );
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .set(model.toMap()!).then((value) {
-          emit(SocialCreateUserSuccessState(uId));
+            emit(SocialCreateUserSuccessState(uId));
     }).catchError((error)
     {
       emit(SocialCreateUserErrorState(error.toString()));

@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../models/SocialUserModel.dart';
 import '../../../shared/components/components.dart';
+import '../../../shared/components/constant.dart';
 import '../../../shared/cubit/cubit.dart';
 import '../../../shared/cubit/states.dart';
 
@@ -16,47 +17,49 @@ const FriendRequestScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
-    return BlocConsumer<SocialCubit,SocialStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title:Text(
-              'Friend Requests',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25
-              ),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 17.0
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ConditionalBuilder(
-                    condition: SocialCubit.get(context).friendRequest.length>0,
-                    builder: (context)=>ListView.separated(
-                        itemBuilder: (context,index)=>buildChatItem(
-                            SocialCubit.get(context).friendRequest[index],
-                            state,
-                            context),
-                        separatorBuilder: (context,index)=> myDivider(),
-                        itemCount: SocialCubit.get(context).friendRequest.length),
-                    fallback: (context)=>Center(child: Text('No Friend Request Yet')),
+
+        return BlocConsumer<SocialCubit,SocialStates>(
+         listener: (context, state) {},
+          builder: ( context,state) {
+            return Scaffold(
+              appBar: AppBar(
+                title:Text(
+                  'Friend Requests',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 17.0
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ConditionalBuilder(
+                        condition: SocialCubit.get(context).friendRequest.length>0,
+                        builder: (context)=>ListView.separated(
+                            itemBuilder: (context,index)=>buildChatItem(
+                                SocialCubit.get(context).friendRequest[index],
+                                context),
+                            separatorBuilder: (context,index)=> myDivider(),
+                            itemCount: SocialCubit.get(context).friendRequest.length),
+                        fallback: (context)=>Center(child: Text('No Friend Request Yet')),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+         );
+
+
   }
 
-  Widget buildChatItem(SocialUserModel model,state,context) {
+  Widget buildChatItem(SocialUserModel model,context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           vertical: 17.0
@@ -85,10 +88,6 @@ const FriendRequestScreen({Key? key}) : super(key: key);
               ),
               Row(
                 children: [
-                  state is SocialAddFriendSuccessState ?
-                  SocialCubit.get(context).deleteFriendRequest(
-                      friendId: model.uId!)! :
-
                   Container(
                     height: 35.0,
                     //padding: EdgeInsetsDirectional.zero,
@@ -107,6 +106,9 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                           cover: model.cover!,
                           bio: model.bio!,
                         );
+                        SocialCubit.get(context).deleteFriendRequest(friendId: model.uId!);
+                        SocialCubit.get(context).getFriendRequest(uId);
+                        SocialCubit.get(context).getFriends();
                       },
                       child: Text(
                         'Confirm',
@@ -119,7 +121,7 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                     ),
                   ),
                   SizedBox(
-                    width: 10.0,),
+                    width: 12.0,),
                   Container(
                     height: 35.0,
                     //padding: EdgeInsetsDirectional.zero,
@@ -136,6 +138,7 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                       onPressed: () {
                         SocialCubit.get(context).deleteFriendRequest(
                             friendId: model.uId!);
+                        SocialCubit.get(context).getFriendRequest(uId);
                       },
                       child: Text(
                         'Delete',

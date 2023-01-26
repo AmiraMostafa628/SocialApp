@@ -1,10 +1,13 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_app/models/SocialUserModel.dart';
+import 'package:social_app/modules/socialApp/login/LoginScreen.dart';
 import 'package:social_app/modules/socialApp/login/Login_cubit/states.dart';
+import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/components/constant.dart';
 
 
@@ -16,13 +19,62 @@ class SocialLoginCubit extends Cubit <SocialLoginStates> {
 
 
   SocialUserModel? userLoginModel;
-  void userLogin({
+  Future userLogin({
     required String email,
     required String password,
-  }) {
+    required BuildContext context
+  }) async {
     emit(SocialLoginLoadingState());
 
-    FirebaseAuth.instance.signInWithEmailAndPassword(
+    try {
+      UserCredential usercredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+      if(usercredential.user!.emailVerified==true) {
+        emit(SocialLoginSuccessState(usercredential.user!.uid));
+      }
+      else
+        {
+          AwesomeDialog(
+            context: context,
+            title: 'Error',
+            desc: 'EmailAddress not verified please check your email.',
+              btnOkOnPress: () {},
+              onDismissCallback: (type) {
+                 Navigator.pop;
+          },
+          )..show();
+        }
+      return usercredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        AwesomeDialog(
+          context: context,
+          title: 'Error',
+          desc:'No user found for that email.',
+          btnOkOnPress: () {},
+          onDismissCallback: (type) {
+            Navigator.pop;
+          },
+        )..show();
+        emit(SocialLoginErrorState());
+      } else if (e.code == 'wrong-password') {
+        AwesomeDialog(
+          context: context,
+          title: 'Error',
+          desc: 'Wrong password provided for that user.',
+          btnOkOnPress: () {},
+          onDismissCallback: (type) {
+            Navigator.pop;
+          },
+        )..show();
+        emit(SocialLoginErrorState());
+      }
+    }
+
+   /* FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password)
         .then((value) {
@@ -32,10 +84,21 @@ class SocialLoginCubit extends Cubit <SocialLoginStates> {
     catchError((error) {
       print(error.toString());
       emit(SocialLoginErrorState(error.toString()));
+    });*/
+  }
+
+  void changePassword(context,email) async{
+    //Create an instance of the current user.
+    FirebaseAuth.instance
+        .sendPasswordResetEmail(email: email).then((value){
+     NavigateTo(context, SocialLoginScreen());
+     emit(SocialChangePasswordSuccessState());
+    }).catchError((error){
+      emit(SocialChangePasswordErrorState(error.toString()));
     });
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  /*Future<UserCredential?> signInWithGoogle() async {
     emit(SocialLoginGoogleUserLoadingState());
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -100,12 +163,10 @@ class SocialLoginCubit extends Cubit <SocialLoginStates> {
     SocialUserModel model = SocialUserModel(
       name: name,
       email: email,
-      phone:'00000000000',
       uId: uId,
       image: image,
       cover: 'https://img.freepik.com/free-photo/group-people-working-out-business-plan-office_1303-15779.jpg',
       bio: 'write your bio...',
-      isEmailVerified: false,
     );
     FirebaseFirestore.instance
         .collection('users')
@@ -116,7 +177,7 @@ class SocialLoginCubit extends Cubit <SocialLoginStates> {
     {
       emit(SocialCreateGoogleUserErrorState());
     });
-  }
+  }*/
 
 
     IconData suffix =Icons.visibility_outlined;

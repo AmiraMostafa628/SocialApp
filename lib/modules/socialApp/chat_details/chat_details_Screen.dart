@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:social_app/models/MessageModel.dart';
 import 'package:social_app/models/SocialUserModel.dart';
@@ -25,12 +26,15 @@ class ChatDetailsScreen extends StatelessWidget {
         SocialCubit.get(context).getMessages(receiverId: userModel.uId!);
         return BlocConsumer<SocialCubit,SocialStates>(
           listener: (context,state){
-            if(state is SocialGetAllMessageSuccessStates)
+            if(state is SocialSendMessageSuccessStates)
               {
                 messageController.text='';
+                SocialCubit.get(context).removeMessageImage();
               }
+
           },
           builder: (context,state){
+            final now = DateTime.now();
             return Scaffold(
               appBar: AppBar(
                 titleSpacing: 0.0,
@@ -150,15 +154,19 @@ class ChatDetailsScreen extends StatelessWidget {
                                 if(SocialCubit.get(context).messageImage==null) {
                                   SocialCubit.get(context).sendMessage(
                                       receiverId: userModel.uId!,
-                                      dateTime: DateTime.now().toString(),
+                                      dateTime: now.toString(),
                                       text: messageController.text);
                                 }else
                                 {
                                   SocialCubit.get(context).uploadMessageImage(
                                       receiverId: userModel.uId!,
-                                      dateTime: DateTime.now().toString(),
+                                      dateTime: now.toString(),
                                       text: messageController.text);
                                 }
+                                SocialCubit.get(context).sendNotification(
+                                    token: userModel.token!,
+                                    name: SocialCubit.get(context).userModel!.name!,
+                                    text: 'sent you a message');
                               },
                               minWidth: 1.0,
                               child: Icon(

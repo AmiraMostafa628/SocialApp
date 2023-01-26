@@ -47,7 +47,7 @@ Widget defaultTextButten({
 })=>TextButton(
     onPressed: (){function();},
     child: Text(
-        text.toUpperCase(),
+        text,
       style: TextStyle(
         color: color
       ),
@@ -228,10 +228,10 @@ Widget myDivider() =>Padding(
 );
 
 Widget buildPostItem(
-    PostModel model,
-    String id,
-    String? MylikedPost,
-    int? commentNumber,
+      PostModel model,
+      String id,
+      String? MylikedPost,
+      int? commentNumber,
     context){
   return Card(
     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -427,9 +427,10 @@ Widget buildPostItem(
                           width: 5.0,
                         ),
                         Text(
-                          '${commentNumber} comment',
+                          '${commentNumber} comments',
                           style: Theme.of(context).textTheme.caption,
                         ),
+
                       ],
                     ),
                   ),
