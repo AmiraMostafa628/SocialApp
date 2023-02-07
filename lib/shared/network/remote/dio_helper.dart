@@ -14,21 +14,14 @@ class DioHelper {
   }
 
 
-  static Future<Response> getData({
-    required String url,
-    Map<String, dynamic>? query,
-    String lang= 'en',
-    String? token,
-  }) async
+  static Future<Response> getData() async
   {
     dio.options.headers={
       'Content-Type':'application/json',
-      'lang':lang,
-      'Authorization':token??'',
+      'Authorization':'Key = AAAAk8LRqi4:APA91bFQpZDNUBEagvXsY1b4ECtkS9m6wRAIRbne2dq34X3KpoqKXQCRwGEGN4A40PqwtxmPbsZNOC6ALoR0nwa5Swic6SExoYR5Qgjm26nC9VIbgeQdmEnPQYTp6PMNYymwxnijyHPu',
     };
     return await dio.get(
-      url,
-      queryParameters: query,
+      'https://fcm.googleapis.com/fcm/send',
     );
   }
 

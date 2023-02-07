@@ -163,10 +163,10 @@ class ChatDetailsScreen extends StatelessWidget {
                                       dateTime: now.toString(),
                                       text: messageController.text);
                                 }
-                                SocialCubit.get(context).sendNotification(
+                                /*SocialCubit.get(context).sendNotification(
                                     token: userModel.token!,
                                     name: SocialCubit.get(context).userModel!.name!,
-                                    text: 'sent you a message');
+                                    text: 'sent you a message');*/
                               },
                               minWidth: 1.0,
                               child: Icon(

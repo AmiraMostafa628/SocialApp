@@ -185,9 +185,9 @@ class ProfileScreen extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context,index)=> buildPostItem(
                         SocialCubit.get(context).myPosts[index],
-                        SocialCubit.get(context).postsId[index],
-                        SocialCubit.get(context).MyLikedPost[SocialCubit.get(context).postsId[index]],
-                        SocialCubit.get(context).commentsNumber[SocialCubit.get(context).postsId[index]],
+                        SocialCubit.get(context).mypostsId[index],
+                        SocialCubit.get(context).MyLikedPost[SocialCubit.get(context).mypostsId[index]],
+                        SocialCubit.get(context).commentsNumber[SocialCubit.get(context).mypostsId[index]],
                         context),
                     separatorBuilder:(context,index)=>SizedBox(height: 8.0,),
                     itemCount: SocialCubit.get(context).myPosts.length,):Center(child: Text('No posts yet')),

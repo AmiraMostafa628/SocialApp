@@ -41,7 +41,7 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                       child: ConditionalBuilder(
                         condition: SocialCubit.get(context).friendRequest.length>0,
                         builder: (context)=>ListView.separated(
-                            itemBuilder: (context,index)=>buildChatItem(
+                            itemBuilder: (context,index)=>buildFriendRequestItem(
                                 SocialCubit.get(context).friendRequest[index],
                                 context),
                             separatorBuilder: (context,index)=> myDivider(),
@@ -59,7 +59,7 @@ const FriendRequestScreen({Key? key}) : super(key: key);
 
   }
 
-  Widget buildChatItem(SocialUserModel model,context) {
+  Widget buildFriendRequestItem(SocialUserModel model,context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           vertical: 17.0
@@ -106,7 +106,10 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                           cover: model.cover!,
                           bio: model.bio!,
                         );
-                        SocialCubit.get(context).deleteFriendRequest(friendId: model.uId!);
+                        SocialCubit.get(context).confirmFriendRequest(
+                            friendId: model.uId!,
+                            valuefriend: true,
+                        );
                         SocialCubit.get(context).getFriendRequest(uId);
                         SocialCubit.get(context).getFriends();
                       },
@@ -136,8 +139,10 @@ const FriendRequestScreen({Key? key}) : super(key: key);
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: MaterialButton(
                       onPressed: () {
-                        SocialCubit.get(context).deleteFriendRequest(
-                            friendId: model.uId!);
+                        SocialCubit.get(context).confirmFriendRequest(
+                            friendId: model.uId!,
+                          valuefriend: false,
+                        );
                         SocialCubit.get(context).getFriendRequest(uId);
                       },
                       child: Text(

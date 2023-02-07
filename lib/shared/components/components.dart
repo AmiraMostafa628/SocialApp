@@ -436,7 +436,7 @@ Widget buildPostItem(
                   ),
                   onTap: (){
                     SocialCubit.get(context).getComment(id);
-                    NavigateTo(context, CommentScreen(id));
+                    NavigateTo(context, CommentScreen(id,model));
                   },
                 ),
               ),
@@ -474,7 +474,7 @@ Widget buildPostItem(
                   ),
                   onTap: (){
                     SocialCubit.get(context).getComment(id);
-                    NavigateTo(context, CommentScreen(id));
+                    NavigateTo(context, CommentScreen(id,model));
                   },
                 ),
               ),
@@ -496,6 +496,15 @@ Widget buildPostItem(
                   ],
                 ),
                 onTap: (){
+                  SocialCubit.get(context).sendNotificationInApp(
+                    name: SocialCubit.get(context).userModel!.name!,
+                    text: 'reacted with your post',
+                    dateTime: DateTime.now().toString(),
+                    friendId: model.uId!,
+                    image: SocialCubit.get(context).userModel!.image!,
+                    icon: 'https://cdn-icons-png.flaticon.com/512/1182/1182670.png',
+                  );
+                  SocialCubit.get(context).getNotification();
                   if(MylikedPost==uId)
                     SocialCubit.get(context).disLikePost(id);
                   if(MylikedPost!=uId)

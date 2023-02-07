@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
+import 'package:social_app/models/PostModel.dart';
 import 'package:social_app/models/commentModel.dart';
 import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
@@ -12,7 +13,8 @@ import 'package:social_app/shared/network/style/icon_broken.dart';
 
 class CommentScreen extends StatelessWidget {
   String? PostId;
-  CommentScreen(this.PostId);
+  PostModel postModel;
+  CommentScreen(this.PostId,this.postModel);
 
   var commentController = TextEditingController();
 
@@ -117,6 +119,16 @@ class CommentScreen extends StatelessWidget {
                           IconButton(
                             onPressed: (){
                               final now = DateTime.now();
+                              SocialCubit.get(context).sendNotificationInApp(
+                                name: SocialCubit.get(context).userModel!.name!,
+                                text: 'commented in your post',
+                                dateTime: DateTime.now().toString(),
+                                friendId: postModel.uId!,
+                                image: SocialCubit.get(context).userModel!.image!,
+                                icon: 'https://cdn-icons-png.flaticon.com/512/1246/1246301.png',
+                              );
+                              SocialCubit.get(context).getNotification();
+
                               if(SocialCubit.get(context).commentImage == null){
                                 SocialCubit.get(context).UploadCommentText(
                                   postId: PostId!,
@@ -134,8 +146,8 @@ class CommentScreen extends StatelessWidget {
                                   );
                                   commentController.text='';
                                   SocialCubit.get(context).removeCommentImage();
-                                }
 
+                                }
                             },
                             icon: Icon(IconBroken.Send),
                           ),

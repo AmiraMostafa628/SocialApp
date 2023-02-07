@@ -174,6 +174,12 @@ class SocialChangeCurrentModeState extends SocialStates{}
 
 class SocialSendNotificationSuccessState extends SocialStates{}
 
+class SocialSendNotificationInAppSuccessState extends SocialStates{}
+
+class SocialGetNotificationInAppSuccessState extends SocialStates{}
+
+
+
 
 
 

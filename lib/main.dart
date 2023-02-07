@@ -13,6 +13,7 @@ import 'package:social_app/shared/components/constant.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
+import 'package:social_app/shared/network/remote/dio_helper.dart';
 import 'package:social_app/shared/network/style/theme.dart';
 
 import 'modules/socialApp/login/LoginScreen.dart';
@@ -25,11 +26,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  /*token = await FirebaseMessaging.instance.getToken();
-  print(token);*/
+  token = await FirebaseMessaging.instance.getToken();
+  print(token);
 
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
+  DioHelper.init();
   late Widget widget;
 
   uId = CacheHelper.getData(key: 'uId');
@@ -69,7 +71,8 @@ class MyApp extends StatelessWidget {
              BlocProvider(
                  create: (BuildContext context)=>SocialCubit()
                    ..getUserData()..getPosts()
-                   ..getAllUsers()..getFriendRequest(uId)..getFriends()
+                   ..getAllUsers()
+                   ..getNotification()
                    ..changeMode(fromShared: isDark)),
              BlocProvider(create: (BuildContext context)=>SocialLoginCubit())
            ],

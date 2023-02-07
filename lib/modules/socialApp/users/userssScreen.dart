@@ -8,12 +8,12 @@ import 'package:social_app/modules/socialApp/Friends/Friends.dart';
 import 'package:social_app/modules/socialApp/friendRequests/friendRequests.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
+import 'package:social_app/shared/network/style/icon_broken.dart';
 
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constant.dart';
 
 class UsersScreen extends StatelessWidget {
-  const UsersScreen({Key? key}) : super(key: key);
 
 
   @override
@@ -21,7 +21,9 @@ class UsersScreen extends StatelessWidget {
 
 
     return  BlocConsumer<SocialCubit,SocialStates>(
-          listener: (context, state) {},
+          listener: (context, state) {
+
+          },
           builder: (context, state) {
             var users= SocialCubit.get(context).users;
             SocialCubit cubit=SocialCubit.get(context);
@@ -97,9 +99,6 @@ class UsersScreen extends StatelessWidget {
                   Expanded(
                     child: StreamBuilder<SocialCubit>(
                       builder: (context, snapshot) {
-                        if(snapshot.connectionState==ConnectionState.waiting)
-                          return Center(child: CircularProgressIndicator());
-
                         return ConditionalBuilder(
                               condition: state is !SocialGetAllUsersLoadingStates && SocialCubit.get(context).users.length>0,
                               builder: (context)=>ListView.separated(
@@ -109,6 +108,7 @@ class UsersScreen extends StatelessWidget {
                                           users[index],
                                           cubit.isFriend[users[index].uId],
                                           cubit.isrequest[users[index].uId],
+
                                           context);},
                                   separatorBuilder: (context,index)=> myDivider(),
                                   itemCount: SocialCubit.get(context).users.length),
@@ -126,7 +126,7 @@ class UsersScreen extends StatelessWidget {
 
   }
 
-  Widget buildUserItem(SocialUserModel model,bool? isfriend,bool?isrequest,context) {
+  Widget buildUserItem(SocialUserModel model,bool? isfriend,bool? isrequest,context) {
 
     return Padding(
               padding: const EdgeInsets.symmetric(vertical: 17.0),
@@ -264,11 +264,21 @@ class UsersScreen extends StatelessWidget {
                                     SocialCubit.get(context).sendFriendRequest(
                                       friendId: model.uId!,
                                     );
-                                    SocialCubit.get(context).getFriendRequest(uId);
-                                    /*SocialCubit.get(context).sendNotification(
-                                        token: ,
-                                        name: name,
-                                        text: text)*/
+                                    SocialCubit.get(context).sendNotification(
+                                        token: model.token!,
+                                        name: SocialCubit.get(context).userModel!.name!,
+                                        text: 'sent you a friend request',
+                                    );
+                                    SocialCubit.get(context).sendNotificationInApp(
+                                        name: SocialCubit.get(context).userModel!.name!,
+                                        text: 'sent you a friend request',
+                                        dateTime: DateTime.now().toString(),
+                                        friendId: model.uId!,
+                                        image: SocialCubit.get(context).userModel!.image!,
+                                        icon: 'https://cdn-icons-png.flaticon.com/512/1057/1057240.png',
+
+                                    );
+                                    SocialCubit.get(context).getNotification();
                                   },
                                   child: Text(
                                     'Add friend',
