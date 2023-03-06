@@ -25,51 +25,56 @@ class ChangePasswordScreeen extends StatelessWidget {
         builder:(context,state){
           return Scaffold(
             appBar: AppBar(),
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Enter your Account',
-                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                color: SocialCubit.get(context).isDark?Colors.white:Colors.black
-                            )
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        defaultFormField(
-                            controller: emailController,
-                            type: TextInputType.emailAddress,
-                            validate: ( value)
-                            {
-                              if (value!.isEmpty) {
-                                return 'Email Can not be Empty';
-                              }
-                            },
-                            label: 'Email Address',
-                            prefix: Icons.email_outlined),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        defaultButton(
-                            function: (){
-                              if(formKey.currentState!.validate()) {
-                                SocialLoginCubit.get(context).
-                                changePassword(context, emailController.text);
-                              }
-                              showToast(text: 'check your email to change password',
-                                  state: ToastState.SUCCESS);
-                            },
-                            background: defaultColor,
-                            text: 'Search'),
-                      ],
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(image: AssetImage('assets/images/pass.jpg'),
+                        height: 200,
+                        width: double.infinity,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text('Enter your Account',
+                          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                              color: SocialCubit.get(context).isDark?Colors.white:Colors.black
+                          )
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      defaultFormField(
+                          controller: emailController,
+                          type: TextInputType.emailAddress,
+                          validate: ( value)
+                          {
+                            if (value!.isEmpty) {
+                              return 'Email Can not be Empty';
+                            }
+                          },
+                          label: 'Email Address',
+                          prefix: Icons.email_outlined),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      defaultButton(
+                          function: (){
+                            if(formKey.currentState!.validate()) {
+                              SocialLoginCubit.get(context).
+                              changePassword(context, emailController.text);
+                            }
+                            showToast(text: 'check your email to change password',
+                                state: ToastState.SUCCESS);
+                          },
+                          background: defaultColor,
+                          text: 'Search'),
+                    ],
 
-                    ),
                   ),
                 ),
               ),

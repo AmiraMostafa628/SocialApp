@@ -991,7 +991,7 @@ List<NotificationModel> Notifications=[];
 
 
 
-  bool isDark = false;
+  bool isDark = true;
   void changeMode({bool? fromShared})
   {
     if(fromShared != null)

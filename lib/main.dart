@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/HomeLayout.dart';
 import 'package:social_app/modules/socialApp/login/Login_cubit/Login_cubit.dart';
 import 'package:social_app/shared/blocObserver.dart';
-import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/components/constant.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
@@ -83,7 +81,7 @@ class MyApp extends StatelessWidget {
                     debugShowCheckedModeBanner: false,
                     theme: lightTheme,
                     darkTheme:darkTheme,
-                    themeMode: SocialCubit.get(context).isDark?ThemeMode.dark:ThemeMode.light,
+                    themeMode: SocialCubit.get(context).isDark==true?ThemeMode.dark:ThemeMode.light,
                     home: startWidget,
                   );
                 }

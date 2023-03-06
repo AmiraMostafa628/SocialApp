@@ -48,8 +48,9 @@ class SocialRegisterScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('REGISTER',
-                            style: Theme.of(context).textTheme.headline4?.copyWith(
+                        Text('Sign up',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontSize: 25,
                                 color: SocialCubit.get(context).isDark?Colors.white:Colors.black
                             )
                         ),

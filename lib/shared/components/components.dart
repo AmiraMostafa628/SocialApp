@@ -13,7 +13,7 @@ Widget defaultButton({
   double width = double.infinity,
   Color background = defaultColor,
   bool isUpperCase = true,
-  double radius = 3.0,
+  double radius = 10.0,
   required Function function,
   required String text,
 }) =>
@@ -25,9 +25,10 @@ Widget defaultButton({
           function();
         },
         child: Text(
-          isUpperCase ? text.toUpperCase() : text,
+          text,
           style: TextStyle(
             color: Colors.white,
+            fontSize: 17
           ),
         ),
       ),
@@ -49,7 +50,8 @@ Widget defaultTextButten({
     child: Text(
         text,
       style: TextStyle(
-        color: color
+        color: color,
+        height: 1.1
       ),
     )
 
@@ -74,7 +76,9 @@ Widget defaultFormField ({
 ) => TextFormField(
   controller: controller,
   style: TextStyle(
-      color: color
+      color: color,
+    fontSize: 16,
+    height: 1.2,
   ),
   keyboardType:type ,
   obscureText: isPassword,
@@ -89,7 +93,8 @@ Widget defaultFormField ({
   decoration: InputDecoration(
     labelText: label,
     labelStyle: TextStyle(
-      color: color
+      color: color,
+      fontSize: 14,
     ) ,
     prefixIcon: Icon(
       prefix,

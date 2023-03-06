@@ -69,9 +69,14 @@ class SocialLoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('LOGIN',
-                          style: Theme.of(context).textTheme.headline4?.copyWith(
-                           color: SocialCubit.get(context).isDark?Colors.white:Colors.black
+                      Image(image: AssetImage('assets/images/Login.jpg'),
+                        height: 150,
+                        width: double.infinity,
+                      ),
+                      Text('Login',
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              fontSize: 25,
+                              color: SocialCubit.get(context).isDark?Colors.white:Colors.black
                           )
                       ),
                       SizedBox(
@@ -128,7 +133,6 @@ class SocialLoginScreen extends StatelessWidget {
                      defaultTextButten(
                          function: (){
                                NavigateTo(context, ChangePasswordScreeen());
-
                          },
                          text: 'Forgotten Password?'),
                       Row(
@@ -136,8 +140,7 @@ class SocialLoginScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Don\'t have an account?',
-                            style: TextStyle(
-                            ),
+                            style: TextStyle(height: 1.1),
                           ),
                           defaultTextButten(
                               function:(){
@@ -146,7 +149,7 @@ class SocialLoginScreen extends StatelessWidget {
                                     SocialRegisterScreen());
                               },
                               color: defaultColor,
-                              text: 'REGISTER')
+                              text: 'Register')
                         ],
                       ),
                      /* Center(
