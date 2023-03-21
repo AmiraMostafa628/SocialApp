@@ -12,6 +12,16 @@ A new Flutter project.![smartmockups_ldas3ep4](https://user-images.githubusercon
 ![smartmockups_ldat2y21](https://user-images.githubusercontent.com/103458291/226730923-10f5cdfa-a85e-4ce4-a75e-d49434a5540b.jpg)
 ![smartmockups_ldat5u9m](https://user-images.githubusercontent.com/103458291/226730952-b7615228-3639-4f3b-8d1c-64961a75b7c2.jpg)
 
+##Features
+
+Full authentication with firebase containing (Sign in, Sign up, logout). -Save the user data when sign up or log in for the first time to keep logged in using Shared-Preferences.
+Back-end validation and error handling in case of wrong inputs or technical issue.
+Updating profile info like status, username, user's profile image and user's cover image.
+Real-time messages text or image with immediate response using Bloc Consumer.
+Exploring other user's profiles and ability.
+Uploading posts with description and image.
+Exploring posts and react with them. 
+Bloc as state management.
 
 ## Getting Started
 
@@ -25,3 +35,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
