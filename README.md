@@ -3,7 +3,8 @@
 
 # social_app
 
-A new Flutter project.![smartmockups_ldas3ep4](https://user-images.githubusercontent.com/103458291/226730300-8a7a2277-bc9a-41fc-b2a8-0f908fb313fb.jpg width="235" height="500"/>
+A new Flutter project.
+![smartmockups_ldas3ep4]<img src=https://user-images.githubusercontent.com/103458291/226730300-8a7a2277-bc9a-41fc-b2a8-0f908fb313fb.jpg  width="500" height="500"/>
 ![smartmockups_ldas7co8]<img src=https://user-images.githubusercontent.com/103458291/226730672-d9a13605-4da4-483b-8b10-0dc29c72b46e.jpg  width="500" height="500"/>
 ![smartmockups_ldashpwg]<img src=https://user-images.githubusercontent.com/103458291/226730802-a1039810-65d3-4c2c-b3be-6e899f3578f4.jpg  width="500" height="500"/>
 ![smartmockups_ldasv78j]<img src=https://user-images.githubusercontent.com/103458291/226730867-6e071f17-b8b9-4352-b139-e0d6a17daf43.jpg  width="500" height="500"/>
