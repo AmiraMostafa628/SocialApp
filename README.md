@@ -14,15 +14,15 @@ A new Flutter project.![smartmockups_ldas3ep4](https://user-images.githubusercon
 
 ## Features
 
-Full authentication with firebase containing (Sign in, Sign up, logout).
+- Full authentication with firebase containing (Sign in, Sign up, logout).
 -Save the user data when sign up or log in for the first time to keep logged in using Shared-Preferences.
-Back-end validation and error handling in case of wrong inputs or technical issue.
-Updating profile info like status, username, user's profile image and user's cover image.
-Real-time messages text or image with immediate response using Bloc Consumer.
-Exploring other user's profiles and ability.
-Uploading posts with description and image.
-Exploring posts and react with them. 
-Bloc as state management.
+- Back-end validation and error handling in case of wrong inputs or technical issue.
+- Updating profile info like status, username, user's profile image and user's cover image.
+- Real-time messages text or image with immediate response using Bloc Consumer.
+- Exploring other user's profiles and ability.
+- Uploading posts with description and image.
+- Exploring posts and react with them. 
+- Bloc as state management.
 
 ## Getting Started
 
